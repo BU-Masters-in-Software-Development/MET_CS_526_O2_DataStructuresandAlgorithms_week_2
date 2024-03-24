@@ -38,7 +38,7 @@
  You must solve this problem by using a stack as the primary data structure.
 
 
-Code Author: <Your Name Here>
+Code Author: Adrian Everardo Ortiz
 
 Running Time Analysis of compute_pressure
 --------------------
@@ -47,7 +47,27 @@ Running Time Analysis of compute_pressure
 
 
 def compute_pressure(stock_history: list):
-    pass
+    stack = []  # Stack to store indices of the days
+    result = [0] * len(stock_history)  # Initialize the result list
+
+    for i, price in enumerate(stock_history):
+        # Find the last day with a lower or equal price
+        while stack and stock_history[stack[-1]] > price:
+            stack.pop()
+
+        # Compute positive stock pressure
+        if stack:
+            pressure = i - stack[-1]
+        else:
+            pressure = i + 1  # If stack is empty, all previous days had higher prices
+
+        result[i] = pressure
+
+        # Push the current day's index onto the stack
+        stack.append(i)
+
+    return result
+
 
 
 """
